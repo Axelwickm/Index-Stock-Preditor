@@ -11,6 +11,9 @@ class Predictor:
     def save(self, filepath):
         return
 
+    def load(self, filepath):
+        return
+
     def train(self, input, output):
         return
 
@@ -57,6 +60,10 @@ class Encoder(Predictor):
 
     def save(self, filepath):
         torch.save(self.net.state_dict(), filepath)
+
+    def load(self, filepath):
+        self.net.load_state_dict(torch.load(filepath))
+        self.net.eval()
 
     def train(self, input, output):
         input = torch.from_numpy(input).float()

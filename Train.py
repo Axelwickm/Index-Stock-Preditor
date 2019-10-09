@@ -25,7 +25,7 @@ PredictorList = [
 ]
 
 
-def load_data():
+def loadData():
     # Read the data from the csv-file into variables
     print("Loading data")
     with open("./data/PrecosAjustados.csv") as csvFile:
@@ -43,15 +43,19 @@ def load_data():
     stocks = (stocks - np.min(stocks)) / (np.max(stocks) - np.min(stocks))
     IBOV = (IBOV - np.min(IBOV)) / (np.max(IBOV) - np.min(IBOV))
 
-    return date, IBOV, stocks, betas
+    return headers, date, IBOV, stocks, betas
 
 
-def split_data(date, stocks):
-    # Split into training set and testing set
-    print("Splitting into training and testing set")
+def availableData(date, stocks):
     availableData = np.array(list(np.ndindex((len(stocks), len(date) - LookBack - LookForward))))
     availableData[:, 1] += LookBack
     availableData = list(map(tuple, availableData))
+    return availableData
+
+
+def splitData(availableData):
+    # Split into training set and testing set
+    print("Splitting into training and testing set")
     trainingSet = sample(availableData, int(len(availableData) * TrainingSetPercentage))
     testingSet = list(filter(lambda x: x not in trainingSet, availableData))
 
@@ -167,8 +171,9 @@ def save_models():
 
 
 if __name__ == '__main__':
-    date, IBOV, stocks, betas = load_data()
-    trainingSet, testingSet = split_data(date, stocks)
+    headers, date, IBOV, stocks, betas = loadData()
+    availableData = availableData(stocks, date)
+    trainingSet, testingSet = splitData(availableData)
 
     train(trainingSet, IBOV, stocks)
 
