@@ -8,6 +8,9 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print("PyTorch running on "+str(device))
 
 class Predictor:
+    def save(self, filepath):
+        return
+
     def train(self, input, output):
         return
 
@@ -31,9 +34,9 @@ class Encoder(Predictor):
             super(Encoder.Network, self).__init__()
             self.fc1 = nn.Linear(intputCount, 50)
             self.relu1 = nn.ReLU()
-            self.fc2 = nn.Linear(50, 30)
+            self.fc2 = nn.Linear(50, 35)
             self.relu2 = nn.ReLU()
-            self.fc3 = nn.Linear(30, outputCount)
+            self.fc3 = nn.Linear(35, outputCount)
             self.sigmoid3 = nn.Sigmoid()
 
         def forward(self, x):
@@ -50,7 +53,10 @@ class Encoder(Predictor):
         self.net.to(device)
 
         self.criterion = LossFunction
-        self.optimizer = torch.optim.Adam(self.net.parameters(), lr=0.00003)
+        self.optimizer = torch.optim.Adam(self.net.parameters(), lr=0.00006)
+
+    def save(self, filepath):
+        torch.save(self.net.state_dict(), filepath)
 
     def train(self, input, output):
         input = torch.from_numpy(input).float()
