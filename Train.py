@@ -14,14 +14,14 @@ LookBackIBOV = 10
 LookForward = 8
 
 TrainingSetPercentage = 0.85
-TrainingEpochs = 200
+TrainingEpochs = 1
 AverageEvery = 2500
 ShouldPlot = True
 LossFunction = nn.SmoothL1Loss()
 
 PredictorList = [
     Predictors.Baseline(LookBack+LookBackIBOV, LookForward, ),
-    Predictors.Encoder(LookBack+LookBackIBOV, LookForward, LossFunction)
+    Predictors.FC_Net(LookBack + LookBackIBOV, LookForward, LossFunction)
 ]
 
 
@@ -172,7 +172,7 @@ def save_models():
 
 if __name__ == '__main__':
     headers, date, IBOV, stocks, betas = loadData()
-    availableData = availableData(stocks, date)
+    availableData = availableData(date, stocks)
     trainingSet, testingSet = splitData(availableData)
 
     train(trainingSet, IBOV, stocks)

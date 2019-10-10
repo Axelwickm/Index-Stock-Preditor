@@ -31,10 +31,10 @@ class Baseline(Predictor):
         return np.full(self.outputCount, np.mean(input))
 
 
-class Encoder(Predictor):
+class FC_Net(Predictor):
     class Network(nn.Module):
         def __init__(self, intputCount, outputCount):
-            super(Encoder.Network, self).__init__()
+            super(FC_Net.Network, self).__init__()
             self.fc1 = nn.Linear(intputCount, 50)
             self.relu1 = nn.ReLU()
             self.fc2 = nn.Linear(50, 35)
@@ -52,7 +52,7 @@ class Encoder(Predictor):
             return out
 
     def __init__(self, intputCount, outputCount, LossFunction):
-        self.net = Encoder.Network(intputCount, outputCount)
+        self.net = FC_Net.Network(intputCount, outputCount)
         self.net.to(device)
 
         self.criterion = LossFunction
