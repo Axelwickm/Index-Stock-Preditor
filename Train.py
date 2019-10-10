@@ -14,13 +14,14 @@ LookBackIBOV = 10
 LookForward = 8
 
 TrainingSetPercentage = 0.85
-TrainingEpochs = 1
+TrainingEpochs = 1000
 AverageEvery = 2500
 ShouldPlot = True
 LossFunction = nn.SmoothL1Loss()
 
 PredictorList = [
-    Predictors.Baseline(LookBack+LookBackIBOV, LookForward, ),
+    Predictors.Baseline(LookBack+LookBackIBOV, LookForward),
+    Predictors.FIR(LookBack + LookBackIBOV, LookForward, LossFunction),
     Predictors.FC_Net(LookBack + LookBackIBOV, LookForward, LossFunction)
 ]
 
@@ -97,6 +98,7 @@ def train(trainingSet, IBOV, stocks):
 
     for predictor in PredictorList:
         print("Training: " + predictor.__class__.__name__ + " predictor")
+
         performanceLog = []
 
         for epoch in range(TrainingEpochs):
