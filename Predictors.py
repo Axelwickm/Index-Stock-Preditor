@@ -89,7 +89,13 @@ class FIR(Predictor):
         return loss_size_detached
 
     def predict(self, input):
-        pass
+        input = torch.from_numpy(input).float()
+        input = torch.autograd.Variable(input)
+        input.to(device)
+
+        filterOut = self.filter.predict(input)
+
+        return filterOut.detach().numpy()
 
 
 

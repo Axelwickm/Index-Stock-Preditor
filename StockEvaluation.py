@@ -25,7 +25,7 @@ def performanceForStock(IBOV, stocks, datapoints):
             inputData = np.concatenate((
                 Train.getHistory(stocks[stockID], ind, steps=Train.LookBack),
                 Train.getHistory(IBOV, ind, steps=Train.LookBackIBOV)))
-            outputData = Train.getHistory(stocks[stockID], ind, steps=Train.LookForward)
+            outputData = Train.getFuture(stocks[stockID], ind, steps=Train.LookForward)
 
             result = predictor.predict(inputData)
 

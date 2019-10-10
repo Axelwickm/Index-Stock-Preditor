@@ -111,7 +111,7 @@ def train(trainingSet, IBOV, stocks):
                 inputData = np.concatenate((
                     getHistory(stocks[indices[0]], indices[1], steps=LookBack),
                     getHistory(IBOV, indices[1], steps=LookBackIBOV)))
-                outputData = getHistory(stocks[indices[0]], indices[1], steps=LookForward)
+                outputData = getFuture(stocks[indices[0]], indices[1], steps=LookForward)
 
                 loss_size = predictor.train(inputData, outputData)
 
@@ -154,7 +154,7 @@ def validate(testingSet):
             inputData = np.concatenate((
                 getHistory(stocks[indices[0]], indices[1], steps=LookBack),
                 getHistory(IBOV, indices[1], steps=LookBackIBOV)))
-            outputData = getHistory(stocks[indices[0]], indices[1], steps=LookForward)
+            outputData = getFuture(stocks[indices[0]], indices[1], steps=LookForward)
 
             result = predictor.predict(inputData)
 
