@@ -14,8 +14,8 @@ LookBackIBOV = 10
 LookForward = 8
 
 TrainingSetPercentage = 0.85
-TrainingEpochs = 1000
-AverageEvery = 2500
+TrainingEpochs = 600
+AverageEvery = 5000
 ShouldPlot = True
 LossFunction = nn.SmoothL1Loss()
 
