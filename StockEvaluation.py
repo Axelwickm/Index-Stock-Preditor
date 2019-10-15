@@ -7,7 +7,6 @@ import torch
 import Predictors
 import Train
 
-
 PredictorList = Train.PredictorList
 
 
@@ -38,6 +37,15 @@ def performanceForStock(IBOV, stocks, datapoints):
     return loss_sizes
 
 
+def saveToCSV(data):
+    print("Writing data to file")
+    with open("./data/StockEvaluation.csv", "w") as f:
+        writer = csv.DictWriter(f, list(data[0].keys()), delimiter=";", lineterminator='\n')
+        writer.writeheader()
+        for datum in data:
+            writer.writerow(datum)
+
+
 if __name__ == "__main__":
     loadModels()
 
@@ -55,4 +63,6 @@ if __name__ == "__main__":
         loss_sizes = performanceForStock(IBOV, stocks, stockDict[stockID])
         stocksPredictionPerformances.append(loss_sizes)
         print(headers[stockID+2]+" (row "+str(stockID+2)+"): "+str(loss_sizes))
+
+    saveToCSV(stocksPredictionPerformances)
 
