@@ -80,11 +80,11 @@ if __name__ == "__main__":
 
     headers, date, IBOV, stocks, betas = Train.loadData()
     availableData = Train.availableData(date, stocks)
-    trainingSet, testingSet = Train.splitData(availableData)
+    #trainingSet, testingSet = Train.splitData(availableData)
 
     # Split testingSet by stock
     stockDict = defaultdict(list)
-    for ind in testingSet:
+    for ind in availableData:
         stockDict[ind[0]].append(ind[1])
 
     stocksPredictionPerformances = []
